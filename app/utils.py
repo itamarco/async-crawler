@@ -10,3 +10,8 @@ def crawl_url(url):
         raise Exception(f"Failed to crawl URL. Status code: {response.status_code}")
 
 
+def save_webpage(crawl_id: str, html_text: str):
+    filename = f"{crawl_id}.html"
+    with open(f"/tmp/webpages/{filename}", "w", encoding="utf-8") as file:
+        file.write(html_text)
+

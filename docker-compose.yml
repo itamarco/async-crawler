@@ -15,7 +15,7 @@ services:
   celery-worker:
     build:
       context: ./
-    command: celery -A tasks worker --loglevel=info
+    command: celery -A tasks worker --loglevel=info --concurrency=20
     depends_on:
       - redis
     environment:
