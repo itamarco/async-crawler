@@ -15,6 +15,7 @@ ENV POETRY_VERSION=1.2.2 \
 
 RUN pip install poetry==${POETRY_VERSION}
 
+RUN mkdir -p /tmp/webpages
 
 WORKDIR /app
 
