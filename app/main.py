@@ -20,9 +20,11 @@ class CrawlRequest(BaseModel):
 @app.post("/start_crawl/")
 def start_crawl(crawl_request: CrawlRequest):
     crawl_id = generate_unique_crawl_id(crawl_request.url)
-    update_crawl_status(crawl_id, Status.ACCEPTED)
+    existing_status = read_crawl_status(crawl_id)
 
-    crawl_web_page.delay(crawl_request.url, crawl_id)
+    if not existing_status or existing_status == Status.ERROR.value:
+        update_crawl_status(crawl_id, Status.ACCEPTED)
+        crawl_web_page.delay(crawl_request.url, crawl_id)
 
     return crawl_id
 
