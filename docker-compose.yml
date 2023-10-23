@@ -1,0 +1,29 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./  # Specify the path to your FastAPI app's Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis  # Ensure that the app can connect to the Redis server
+    environment:
+#      - SERVICE=app
+      - REDIS_URL=redis://redis:6379/0  # Celery broker URL
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0  # Celery result backend URL
+
+  celery-worker:
+    build:
+      context: ./  # Specify the path to your Celery worker's Dockerfile
+    command: celery -A tasks worker --loglevel=info
+    depends_on:
+      - redis  # Ensure that the Celery worker can connect to the Redis server
+    environment:
+#      - SERVICE=worker
+      - REDIS_URL=redis://redis:6379/0  # Celery broker URL
+      - RESULT_BACKEND=redis://redis:6379/0  # Celery result backend URL
+
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"

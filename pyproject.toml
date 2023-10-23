@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "async-crawler"
+version = "0.1.0"
+description = ""
+authors = ["itamarco <itc404@gmail.com>"]
+readme = "README.md"
+packages = [{include = "simple_crawler"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.104.0"
+requests = "^2.31.0"
+celery = "^5.3.4"
+redis = "^5.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
